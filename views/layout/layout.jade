@@ -1,7 +1,14 @@
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+	head
+		title= title
+		link(rel='stylesheet', href='/css/bootstrap.min.css')
+		link(rel='stylesheet', href='/css/style.css')
+		script(type='text/javascript' src='/js/jquery.js')
+		script(type='text/javascript' src='/js/bootstrap.min.js')
+		script(type='text/javascript' src='/js/simpleGrid.js')
+	body
+		.col-sm-12.col-lg-12
+			include head.jade
+		.col-sm-12.col-lg-12
+			block content

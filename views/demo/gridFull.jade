@@ -1,0 +1,42 @@
+extends gridDemoLayout.jade
+block result
+	h1 Grid full features
+	#tableContainer
+	script(type='text/javascript').
+		var option = {
+			containerIdName: 'tableContainer',
+			data: [{'head1':'cell11','head2':'cell12'},
+						 {'head1':'cell21','head3':'cell23'},
+						 {'head2':'cell32','head3':'cell33'}],
+			dataTemplate:{'head1':"<span class='red'>%data%</span>",
+										'head2':"<span class='green'>%data%</span>",
+										'head3':"<span class='gold'>%data%</span>"},
+			inserting: true,
+			sorting: true,
+			deleting: true,
+			editing: true,
+			columnInserting: true,
+			columnDeleting: true,
+		}
+		var grid = new SimpleGrid(option);
+		grid.render();
+block code	
+	h2 Code for grid
+	pre 
+		p.small var option = {
+		p.small   containerIdName: 'tableContainer',
+		p.small   data: [{'head1': 'cell11','head2': 'cell12'},
+		p.small          {'head1': 'cell21','head3': 'cell23'},
+		p.small          {'head2': 'cell32','head3': 'cell33'}],
+		p.small   dataTemplate: {'head1': "#{"<span class='red'>%data%</span>"}",
+		p.small                  'head2': "#{"<span class='green'>%data%</span>"}",
+		p.small                  'head3': "#{"<span class='gold'>%data%</span>"}"},
+		p.small   inserting: true,
+		p.small   sorting: true,
+		p.small   deleting: true,
+		p.small   editing: true,
+		p.small   columnInserting: true,
+		p.small   columnDeleting: true,
+		p.small }
+		p.small var grid = new SimpleGrid(option);
+		p.small grid.render();		

@@ -1,0 +1,18 @@
+mixin isLiActive(value, href, text)
+	if headerActive == value 
+		li.active
+			a(href='#{href}') #{text} 
+	else
+		li
+			a(href='#{href}') #{text}  
+					
+.site-header
+	.col-xs-12.col-sm-12.col-lg-12.left
+		nav(class='navbar navbar-default')
+			.container-fluid
+				.navbar-header
+					a(class='navbar-brand' href='/') Lukin Deema
+				ul.nav.navbar-nav
+					+isLiActive("about",'/about','About')
+					+isLiActive("portfolio",'/potrfolio','Portfolio')
+					+isLiActive("grid",'/demo/grid/option','Grid')
