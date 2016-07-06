@@ -1,6 +1,6 @@
 module.exports = function(app){
 	app.get('/', function(req, res, next) {
-	  res.render('index', { title:'Main page' });
+	  res.render('start', { title:'Main page' });
 	});
 	app.get('/about', function(req, res, next) {
 	  res.render('about',{headerActive:"about"});

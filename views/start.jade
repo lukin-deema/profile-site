@@ -1,0 +1,22 @@
+doctype html
+html
+	head
+		title Homepage
+		//[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]
+		link(rel='stylesheet', href='/css/main.css')
+		//[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]
+		//[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]
+	body
+		div(id='header')
+			include start/header.jade
+		div(id='main')
+			include start/main.jade
+		div(id='footer')
+			include start/footer.jade
+		script(type='text/javascript' src='/js/jquery.min.js')
+		script(type='text/javascript' src='/js/jquery.scrolly.min.js')
+		script(type='text/javascript' src='/js/jquery.scrollzer.min.js')
+		script(type='text/javascript' src='/js/skel.min.js')
+		script(type='text/javascript' src='/js/util.js')
+		//[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]
+		script(type='text/javascript' src='/js/main.js')
