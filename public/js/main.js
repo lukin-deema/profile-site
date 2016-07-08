@@ -114,6 +114,16 @@
 					$('#headerToggle, #header, #main')
 						.css('transition', 'none');
 
+		// Show image on click
+			$("article.item img").on("click", function(e) {
+				var target = e.target;
+      	$("#open-modal > div").width(target.naturalWidth);
+      	$("#open-modal > div > a").attr('href', $(target).attr("data-back"));
+      	$("#open-modal > div").height(target.naturalHeight);
+      	$("#modal-image").width(target.naturalWidth);
+      	$("#modal-image").height(target.naturalHeight);
+      	$("#modal-image").attr('src',$(target).attr("src"));
+			});
 	});
 
 })(jQuery);
