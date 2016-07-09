@@ -1,0 +1,149 @@
+extends gridMainLayout.jade
+block gridLayoutContent
+	h1 Grid Options for version v1.0.4:
+	table.option
+		thead
+			tr
+				th name
+				th ver
+				th default
+				th description
+		tbody
+			tr
+				td data
+				td v1.0.0
+				td []
+				td 
+					div Showing informations, can be added using method addItems(items)
+					div [{header[i]: value,..., header[n]: value},{...}]
+			tr
+				td headers
+				td v1.0.0
+				td []
+				td Showing heders can be add new header using columnInserting = true [header[0],...,header[n]]
+			tr
+				td hiddenHeaders
+				td v1.0.4
+				td undefided
+				td This headers doesnt show on UI [header[n+1],...] if data should contains some addition information 
+			tr
+				td containerIdName
+				td v1.0.0
+				td snTable
+				td It is the container id where grid will render #{"<div id='snTable'></div>"}
+			tr
+				td tableClass
+				td v1.0.0
+				td undefined
+				td On some value remove default style on table and set this value as class attrinbute
+			tr
+				td dataTemplate
+				td v1.0.1
+				td "%data%" 
+				td 
+					div Same tamplate for every column is "%data%". 
+					div Specify template for each column {header[0]: "%data%",...,header[n]: "%data%"}
+			tr
+				td deleting
+				td v1.0.0
+				td false
+				td On true append button for delete item in additional column
+			tr
+				td callbackDeleting
+				td v1.0.1
+				td 
+					div function(item, index, callback){
+					div callback(true); }
+				td When callbackDeleting obviously define 'deleting' parameter will redefined as true
+			tr
+				td sorting
+				td v1.0.0
+				td false
+				td On true append sorting button in each header of the table 
+			tr
+				td callbackSorting
+				td v1.0.2
+				td 
+					div function(columnName, columnAcs, callback){
+					div callback(true)}
+				td When callbackSorting obviously define 'sorting' parameter will redefined as true
+			tr
+				td inserting
+				td v1.0.1
+				td false 
+				td On true append input boxes for adding new item in in additional column
+			tr
+				td callbackInserting
+				td v1.0.1
+				td 
+					div function(item, callback){
+					div callback(true[, updatedItem]);}
+				td When callbackInserting obviously define 'inserting' parameter will redefined as true
+			tr
+				td editing
+				td v1.0.2
+				td false 
+				td On true append button for edit current item. edit item occur in footer 
+			tr
+				td callbackEditing
+				td v1.0.2
+				td 
+					div function(olditem, newItem, index, callback){
+					div callback(true[, updatedItem]);}
+				td When callbackEditing obviously define 'editing' parameter will redefined as true
+			tr
+				td columnInserting
+				td v1.0.2
+				td false
+				td On true append button and inputbox for adding new column to additional column in table header
+			tr
+				td callbackColumnInserting
+				td v1.0.2
+				td 
+					div function(columnName, callback){
+					div callback(true[, updatedItem])}
+				td When callbackColumnInserting obviously define 'columnInserting' parameter will redefined as true 
+			tr
+				td columnDeleting
+				td v1.0.2
+				td false
+				td On true append button for deleting column in table header
+			tr
+				td callbackColumnDeleting
+				td v1.0.2
+				td 
+					div function(columnName, affectedCount, callback){
+					div callback(true)}
+				td When callbackColumnDeleting obviously define 'columnDeleting' parameter will redefined as true 
+	h2 Grid Methods for version v1.0.4:
+	table.option
+		thead
+			tr
+				th name
+				th ver
+				th description
+		tbody
+			tr
+				td render
+				td v1.0.0
+				td Render table in container containerIdName with current options
+			tr
+				td optionsGet
+				td v1.0.0
+				td Returns current options
+			tr
+				td optionsSet
+				td v1.0.0
+				td Set new options
+			tr
+				td addItems
+				td v1.0.0
+				td Add new item into table object or object array with keys similar to options.header of objects [{header[i]: value,..., header[n]: value},{...}]
+			tr
+				td removeItem
+				td v1.0.0
+				td Programaticaly reomove item from table by id
+			tr
+				td sortItems
+				td v1.0.0
+				td Sort table using headerName, a

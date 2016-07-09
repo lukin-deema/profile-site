@@ -1,9 +1,17 @@
-var express = require('express');
-var router = express.Router();
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-module.exports = router;
+module.exports = function(app){
+	app.get('/', function(req, res, next) {
+	  res.render('start');
+	});
+	app.get('/about', function(req, res, next) {
+	  res.render('about',{headerActive:"about"});
+	});
+	app.get('/potrfolio', function(req, res, next) {
+	  res.render('potrfolio',{headerActive:"portfolio"});
+	});
+	app.get('/demo/grid/option', function(req, res, next) {
+	  res.render('demo/gridOption',{headerActive:"grid",gridSideActive:'option'});
+	});
+	app.get('/demo/grid/full', function(req, res, next) {
+	  res.render('demo/gridFull',{headerActive:"grid",gridSideActive:'full'});
+	});
+}
