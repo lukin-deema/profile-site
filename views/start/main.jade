@@ -1,0 +1,65 @@
+section(id='top').one.dark.cover
+	.container
+		header
+			h2.alt Hi! I'm a developer. 
+			p I'm looking for a job front-end or back-end. I have skills in javascript, jQuery, C#, t-sql and some basic knowledge of nodejs and mongo db
+			p I have personal qualities like curiosity and hard-working
+section(id='grid-table').two
+	.container
+		header
+			h2 Javascript table 
+			h4
+				a(href="https://github.com/lukin-deema/simple-controls" target="_blank")  
+					span.fa.fa-github
+		p This module helps you to create table from jast single tag. It can customize by adding item to table, editing existing items, remove items, append and delete column. For create table you need include file simpleGrid.js from the repository, create instance of simpleGrid with sending some options and call method render.
+		p Code below render table like on image "Name list" in #{"<div id='table-place'></div>"}:
+			pre var table = new  simpleGrid({
+				| data:[
+				|   {"Country":"Ukraine","City":"Kiev","Name":"John James","Phone":"888888",},
+				|   {"Country":"Ukraine","City":"Kiev","Name":"Alex Kim","Phone":"777777",}
+				|  ],
+				|  containerIdName: 'table-place'
+				|  editing: true,
+				|  inserting: true,
+				|  deleting: true,
+				|  columnInserting: true
+				| });
+				| table.render();
+		.row
+			div(class='4u 12u$(mobile)')
+				article.item
+					a(href="#open-modal").image.fit
+						img(src="images/tableImage.png" data-back="#grid-table" alt="")
+					header
+						h3 Name list
+			div(class='4u 12u$(mobile)')
+				article.item
+					a(href="#open-modal").image.fit
+						img(src="images/tableImage2.png" data-back="#grid-table" alt="")
+					header
+						h3 Statictic of browser usage
+section(id='simple-game').tree
+	.container
+		header
+			h2 Simple game 
+			h4
+				a(href="https://github.com/lukin-deema/gamesample"  target="_blank")  
+					span.fa.fa-github-square 
+				|   |   
+				a(href="https://gamesample.herokuapp.com"  target="_blank")  
+					span.fa.fa-houzz  
+			p You can run this game from different computers, browsers or tabs. And each connection will move independently with syncronizing to other player. It was written on nodejs, sockerIO, angularjs
+		.row
+			div(class='4u 12u$(mobile)')
+				article.item
+			div(class='4u 12u$(mobile)')
+				article.item
+					a(href="#open-modal").image.fit
+						img(src="images/sampleGame.png" data-back="#simple-game"  alt="")
+					header
+						h3 Three user on field
+
+div(id='open-modal').modalDialog
+	div
+		a(href="#top" title="Close" class="close")
+			img(id='modal-image')
