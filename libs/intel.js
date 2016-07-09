@@ -6,7 +6,7 @@ module.exports = function(module){
 	var date = new Date();
 	function fileHandler(){
 		return new intel.handlers.File({ 
-			file: './.log/'+date.toLocaleDateString()+"H"+date.getHours()+'.log',
+			file: './.log/'+date.getYear()+'-'+date.getMonth()+'-'+date.getDate()+"H"+date.getHours()+'.log',
 			formatter: new intel.Formatter({
 				format:"[%(date)s] %(name)s.%(levelname)s: %(message)s"
 			})
