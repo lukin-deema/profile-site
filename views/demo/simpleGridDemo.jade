@@ -1,0 +1,48 @@
+doctype html
+html
+	head
+		title Simple Grid Demo
+		script(type='text/javascript' src='/js/simpleGrid.js')
+		link(rel='stylesheet', href='/css/style.css')
+	body
+		table.demo
+			thead
+				tr
+					td(colspan=2)
+						div Configuration:
+			tbody
+				tr
+					td
+						input(type="checkbox" id="inserting") 
+						| Inserting
+					td
+						input(type="checkbox" id="sorting") 
+						| Sorting
+				tr
+					td
+						input(type="checkbox" id="columnInserting") 
+						| ColumnInserting
+					td
+						input(type="checkbox" id="editing") 
+						| Editing
+				tr
+					td
+						input(type="checkbox" id="deleting") 
+						| Deleting
+					td
+						input(type="checkbox" id="columnDeleting") 
+						| ColumnDeleting
+				tr
+					td(colspan=2) column templates
+				tr
+					td
+						input(type="input" id="column1" size="30" value="%data%")
+					td
+						input(type="input" id="column2" size="30" value="<span style='color:red'>%data%</span>")
+			tfoot
+				tr
+					td(colspan=2)
+						input(type="button" id="run" onclick="run()" value="run")
+		div.table-container
+			div(id="table-container")
+		script(type='text/javascript' src="js/demoGrid.js")

@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('./libs/intel');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var routes = require('./routes/index');
 
 var app = express();
 
@@ -24,10 +25,7 @@ app.use(require('node-sass-middleware')({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-//require("routes")(app);
-app.get('/', function(req, res, next) {
-  res.render('start');
-});
+app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

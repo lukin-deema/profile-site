@@ -1,4 +1,4 @@
-/// SimpleGrid v1.0.4
+/// SimpleGrid v1.1.0
 (function SimpleNotification(global) {
 	/// sortDescriptor
 	function SortColumnDescriptor(asc){
@@ -98,6 +98,25 @@
 		style.innerHTML = "table th, table td { padding: 5px; border: 1px solid black }";
 		table.appendChild(style);
 	}
+	function addOptionHeaders(opt, _show){
+		opt.forEach(function(el){
+			if (el.hasOwnProperty("header")) {  // obj
+				if (!this.options.headers.some(function(x){return x.header==el.header;})) {
+					var pushObj = {show: _show, header: el.header};
+					if (el.hasOwnProperty("template")) { pushObj.template = el.template;
+					} else { pushObj.template = "%data%"; }
+					if (el.hasOwnProperty("value")) { pushObj.value = el.value;
+					} else { pushObj.value = el.value.slice(0,1).toUpperCase()+el.value.slice(1); }
+					this.options.headers.push(pushObj);
+				}
+			} else {  // string
+				if (!this.options.headers.some(function(x){return x.header==el.header;})){
+					var val = el.slice(0,1).toUpperCase()+el.slice(1);
+					this.options.headers.push({show: _show, header: el, template:"%data%",value: val});
+				}
+			}
+		}, this)
+	}
 
 	function render() {
 		var table = this.container.querySelector("table");
@@ -124,7 +143,12 @@
 			}
 		}
 	}
-
+	function destroy(){
+		var domContainer = document.querySelector("#"+this.options.containerIdName);
+		while (domContainer.firstChild) {
+			domContainer.removeChild(domContainer.firstChild);
+		}
+	}
 	/// header
 	function createHeader() {
 		var header = document.createElement("thead");
@@ -159,7 +183,7 @@
 	}
 	function createHeaderCell(i) {
 		var th = document.createElement("th");
-		th.innerHTML = this.options.headers[i].header;
+		th.innerHTML = this.options.headers[i].template.replace(/%data%/g, this.options.headers[i].value || "");
 		if (this.options.sorting) {
 			var sortSpan = document.createElement("span");
 			sortSpan.setAttribute("id","sort-" + this.options.headers[i].header);
@@ -171,8 +195,8 @@
 		if (this.options.columnDeleting) {
 			var removeSpan = document.createElement("span");
 			removeSpan.innerHTML = " &#215;";
-			removeSpan.addEventListener("click", removeTableColumn.bind(this, 
-				this.options.headers[i].header), false);
+			removeSpan.setAttribute("id","remove-" + this.options.headers[i].header);
+			removeSpan.addEventListener("click", removeTableColumn.bind(this, i), false);
 			th.appendChild(removeSpan);
 		}
 		return th;
@@ -223,8 +247,9 @@
 	}
 	
 	/// column manipulation 
-	function removeTableColumn(columnName) {
+	function removeTableColumn(columnHeaderNumber) {
 		var affectedCount = 0;
+		var columnName = this.options.headers[columnHeaderNumber].header;
 		this.options.data.forEach(function(el){
 			if (el[columnName]) {
 				affectedCount++;
@@ -232,23 +257,23 @@
 		});
 		this.options.callbackColumnDeleting(columnName, affectedCount, (function(result){
 			if (!result) { return; }
-			var columnId = this.options.headers.findIndex(function(el){
-				if (el.header == columnName && el.show) {return true;}
-			})
+			
+			var th = getParentWithTagName(this.container.querySelector("#remove-" + this.options.headers[columnHeaderNumber].header), 'th');
+			var columnNumber = Array.prototype.indexOf.call(th.parentNode.children, th);
 
 			var trHead = this.container.querySelector("thead tr");
-			trHead.removeChild(trHead.childNodes[columnId]);  
-			this.options.sortDescriptors.remove(this.options.headers[columnId]);
-			this.options.headers.splice(columnId, 1);
+			trHead.removeChild(trHead.childNodes[columnNumber]);  
+			this.options.sortDescriptors.remove(this.options.headers[columnNumber]);
+			this.options.headers.splice(columnNumber, 1);
 
 			trBody = this.container.querySelector("tbody");
 			for (var i = 0; i < trBody.children.length; i++) {
-				trBody.children[i].removeChild(trBody.children[i].childNodes[columnId]); 
+				trBody.children[i].removeChild(trBody.children[i].childNodes[columnNumber]); 
 				delete this.options.data[i][columnName];
 			}
 
 			trFoot = this.container.querySelector("tfoot tr");
-			trFoot.removeChild(trFoot.childNodes[columnId]);    
+			trFoot.removeChild(trFoot.childNodes[columnNumber]);    
 		}).bind(this));
 	}
 	function appendNewColumnClick(e) {
@@ -260,7 +285,7 @@
 		this.options.callbackColumnInserting(newColumnName, (function(result, updatedItem){
 			if (!result) { return; }
 			newColumnName = updatedItem || newColumnName;
-			this.options.headers.push({ show: true, header: newColumnName});
+			this.options.headers.push({ show: true, header: newColumnName, template:"%data%", value: newColumnName.slice(0,1).toUpperCase()+newColumnName.slice(1)});
 
 			for (var i = 0; i < this.options.data.length; i++) {
 				this.options.data[i][newColumnName] = "";
@@ -278,7 +303,8 @@
 			for (i = 0; i < this.options.data.length; i++) {
 				var item = {};
 				item[newColumnName]="";
-				appendNewColumnCell(tbody, i, replaceTemplate.call(this, item, newColumnName));
+				var val = newColumnName.slice(0,1).toUpperCase()+newColumnName.slice(1);
+				appendNewColumnCell(tbody, i, replaceTemplate.call(this, item, {show: true, header: newColumnName, template: "%data%", value: val}));
 			}
 			
 			var tfoot = this.container.querySelector("tfoot");
@@ -378,7 +404,7 @@
 			var tr = document.createElement("tr");
 			for (var j = 0; j < this.options.headers.length; j++) {
 				if (this.options.headers[j].show) {
-					tr.appendChild(replaceTemplate.call(this, items[i], this.options.headers[j].header));
+					tr.appendChild(replaceTemplate.call(this, items[i], this.options.headers[j]));
 				}
 			}
 			if (isAddExtraColumn(this.options)) {
@@ -442,12 +468,12 @@
 		}, this);
 		tfoot.querySelector("#footer-button").value = "Edit";
 	}
-	function replaceTemplate(item, headerName) {
+	function replaceTemplate(item, header) {
 		var inner;
 		if (this.options.dataTemplate instanceof Object) {
-			inner = this.options.dataTemplate[headerName].replace(/%data%/g, item[headerName] || "");
+			inner = this.options.dataTemplate[header.header].replace(/%data%/g, item[header.header] || "");
 		} else {
-			inner = this.options.dataTemplate.replace(/%data%/g, item[headerName] || "");
+			inner = this.options.dataTemplate.replace(/%data%/g, item[header.header] || "");
 		}
 		var result = document.createElement("td");
 		result.innerHTML = inner;
@@ -477,7 +503,20 @@
 
 	/// options
 	function optionsGet() {
-
+		var headers = this.options.headers.reduce(function(result, el){
+			if (el.show) {
+				result.push({"header": el.header, "template": el.template, "value": el.value});
+			}
+			return result;
+		}, [])
+		var hiddenHeaders = this.options.headers.reduce(function(result, el){
+			if (!el.show) {
+				result.push({"header": el.header, "template": el.template, "value": el.value});
+			}
+			return result;
+		}, [])		
+		this.options.headers = headers;
+		this.options.hiddenHeaders = hiddenHeaders;
 		return this.options;
 	}
 	function optionsSet(opt) {
@@ -488,25 +527,19 @@
 		this.options.dataTemplate = opt.dataTemplate || "%data%";
 
 		this.options.headers = []
-		if (opt.headers) {
-			opt.headers.forEach(function(el){
-				if (!this.options.headers.some(function(x){return x.header==el;})){
-					this.options.headers.push({show: true, header: el});
-				}
-			}, this)
-		}
 		if (opt.hiddenHeaders) {
-			opt.hiddenHeaders.forEach(function(el){
-				if (!this.options.headers.some(function(x){return x.header==el;})){
-					this.options.headers.push({show: false, header: el});
-				}
-			}, this)
+			addOptionHeaders.call(this, opt.hiddenHeaders, false);
 		}
+		if (opt.headers) {
+			addOptionHeaders.call(this, opt.headers, true);
+		}
+
 		this.options.data = opt.data || [];
 		this.options.data.forEach(function(el){
 			Object.keys(el).forEach(function(x){
 				if (!this.options.headers.some(function(y){return y.header==x;})) {
-					this.options.headers.push({show: true, header: x});
+					var val = x.slice(0,1).toUpperCase()+x.slice(1);
+					this.options.headers.push({show: true, header: x, template:"%data%",value: val});
 				}
 			}, this);
 		}, this);
@@ -568,11 +601,13 @@
 	}
 
 	function SimpleGrid(opt) { 
-		this.optionsSet(opt);
-		this.render();
+		if (opt) {
+			this.optionsSet(opt);
+		}
 	}
 	SimpleGrid.prototype = { 
 		render: render,
+		destroy: destroy,
 		addItems: addItems,
 		removeItem: removeItem,
 		optionsGet: optionsGet, 

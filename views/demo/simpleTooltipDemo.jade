@@ -1,0 +1,46 @@
+doctype html
+html
+	head
+		title Simple Tooltip Demo
+		script(type='text/javascript' src='/js/simpleToolTip.js')
+		script(type='text/javascript' src='/js/jquery.js')
+		link(rel='stylesheet', href='/css/style.css')
+	body
+		table.demo
+			thead
+				tr
+					td(colspan=5)
+						div Configuration:
+			tbody
+				tr
+					td 
+						input(id="static" checked type="radio" value="static" name="tooltip-text")
+						| Static text 
+						input(id="static-text" type="text" value="Some text")
+					td
+						input(id="id" type="radio" value="id" name="tooltip-text")
+						| Id
+					td
+						input(id="inner-text" type="radio" value="inner" name="tooltip-text")
+						| Inner text
+					td(colspan=2)
+						input(id="apply-tooltip-text" type="button" value="Apply")
+				tr
+					td Default template types:
+					td 
+						#template-text text(text)
+					td 
+						#template-buttonync button yes no cancel(buttonync)
+					td 
+						#template-buttonyc button yes cancel(buttonyc)
+					td 
+						#template-buttoniyc button inputbox yes cancel(buttoniy)
+				tr
+					td Custom template 
+						span#template-help ? 
+						input#template(type="text" value="%data%")
+					td 
+						input(id="apply-tooltip-template" type="button" value="Apply")
+					td(colspan=3)
+						#result Hower
+		script(type='text/javascript' src="js/demoToolTip.js")

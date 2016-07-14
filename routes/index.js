@@ -1,17 +1,13 @@
-module.exports = function(app){
-	app.get('/', function(req, res, next) {
-	  res.render('start');
-	});
-	app.get('/about', function(req, res, next) {
-	  res.render('about',{headerActive:"about"});
-	});
-	app.get('/potrfolio', function(req, res, next) {
-	  res.render('potrfolio',{headerActive:"portfolio"});
-	});
-	app.get('/demo/grid/option', function(req, res, next) {
-	  res.render('demo/gridOption',{headerActive:"grid",gridSideActive:'option'});
-	});
-	app.get('/demo/grid/full', function(req, res, next) {
-	  res.render('demo/gridFull',{headerActive:"grid",gridSideActive:'full'});
-	});
-}
+var router = require('express').Router();
+
+router.get('/', function(req, res, next) {
+	res.render('start');
+});
+router.get('/grid-demo', function(req, res, next) {
+	res.render('demo/simpleGridDemo');
+});
+router.get('/tooltip-demo', function(req, res, next) {
+	res.render('demo/simpleTooltipDemo');
+});
+
+module.exports = router;
